@@ -22,4 +22,4 @@ jobs:
         github_token: ${{ secrets.DEPLOY_PRIVATE_KEY }}
         publish_dir: ./dist
     - run: npm install -g pnpm    
-    - run: pnpm run build --if-present
+    - run: pnpm build
