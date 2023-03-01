@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { useContext, useEffect, useState } from 'react'
 import { CardContext } from '../App'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 export interface DataProps {
   [key: string]: any
