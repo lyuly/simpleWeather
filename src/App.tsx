@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { createContext, useEffect, useState } from 'react'
 import Card from './components/Card'
-// import { invoke } from "@tauri-apps/api/tauri";
+import { invoke } from '@tauri-apps/api/tauri'
 
 export interface IpProps {
   ip?: string
@@ -29,6 +29,10 @@ function App () {
 
   const [ipInfo, setIpInfo] = useState<IpProps>(initialContext)
 
+  async function greet () {
+    setInputValue(await invoke('greet', { inputValue }))
+  }
+
   const getIp = async () => {
     await fetch('https://forge.speedtest.cn/api/location/info', {
       headers: {
@@ -54,8 +58,8 @@ function App () {
   }
 
   return (
-    <div className='flex justify-center items-center flex-col gap-5 bg-white dark:bg-black'>
-      <h1 className='text-transparent bg-clip-text bg-gradient-to-r font-light to-emerald-300 from-sky-600 md:text-5xl lg:text-6xl'>
+    <div className='flex justify-center items-center flex-col gap-5 w-screen h-screen bg-white dark:bg-black'>
+      <h1 className='text-4xl text-transparent bg-clip-text bg-gradient-to-r font-light to-emerald-300 from-sky-600 md:text-5xl lg:text-6xl'>
         简单天气
       </h1>
 
