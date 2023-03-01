@@ -32,11 +32,12 @@ export interface DataProps {
 }
 
 function Card () {
-  const ipInfo = useContext(CardContext)
+  const location = useContext(CardContext)
+  const [lon, lat] = location.split(',')
 
   const url = `https://devapi.qweather.com/v7/weather/now?location=${Number(
-    ipInfo.lon
-  ).toFixed(2)},${Number(ipInfo.lat).toFixed(
+    lon
+  ).toFixed(2)},${Number(lat).toFixed(
     2
   )}&key=18a7bf8cb4f94fb0aca036a106becb43`
 
@@ -58,7 +59,7 @@ function Card () {
   }
 
   useEffect(() => {
-    if (ipInfo.lon) { void getData(url) }
+    void getData(url)
   }, [])
 
   return (

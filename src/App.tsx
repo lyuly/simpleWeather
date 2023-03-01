@@ -4,6 +4,20 @@ import { createContext, useEffect, useState } from 'react'
 import Card from './components/Card'
 // import { invoke } from "@tauri-apps/api/tauri";
 
+export interface IpProps {
+  ip?: string
+  full_ip?: string
+  country?: string
+  province?: string
+  city?: string
+  distinct?: string
+  isp?: string
+  operator?: string
+  lon: string
+  lat: string
+  net_str?: string
+}
+
 // 天气面板信息传递
 export const CardContext = createContext('')
 
@@ -11,7 +25,9 @@ function App () {
   // 搜索
   const [inputValue, setInputValue] = useState('')
 
-  const [ipInfo, setIpInfo] = useState('')
+  const initialContext = { ip: '222.168.40.155', full_ip: '222.168.40.155', country: '\u4e2d\u56fd', country_code: 'CN', province: '\u5409\u6797', city: '\u957f\u6625', distinct: '\u671d\u9633\u533a', isp: '\u7535\u4fe1', operator: '\u7535\u4fe1', lon: '125.3245', lat: '43.886841', net_str: '\u4e2d\u56fd\u7535\u4fe1' }
+
+  const [ipInfo, setIpInfo] = useState<IpProps>(initialContext)
 
   const getIp = async () => {
     await fetch('https://forge.speedtest.cn/api/location/info', {
@@ -34,7 +50,7 @@ function App () {
   }, [])
 
   const search = () => {
-
+    return 0
   }
 
   return (
@@ -87,7 +103,7 @@ function App () {
         </div>
       </form>
 
-      <CardContext.Provider value={ipInfo}>
+      <CardContext.Provider value={ipInfo.lon + ',' + ipInfo.lat}>
         <Card />
       </CardContext.Provider>
     </div>
