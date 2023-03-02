@@ -9,7 +9,7 @@ export interface IpProps {
   full_ip?: string
   country?: string
   province?: string
-  city?: string
+  city: string
   distinct?: string
   isp?: string
   operator?: string
@@ -107,7 +107,7 @@ function App () {
         </div>
       </form>
 
-      <CardContext.Provider value={ipInfo.lon + ',' + ipInfo.lat}>
+      <CardContext.Provider value={ipInfo.city + ',' + ipInfo.lon + ',' + ipInfo.lat}>
         <Card />
       </CardContext.Provider>
     </div>
