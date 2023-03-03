@@ -9,4 +9,4 @@ developing with Tauri, React and Typescript in Vite.
 - web
 
 ## UI
-<img src="./black.png" style="width: 400px; height: 300px;" align="center"/><img src="./white.png" style="width: 400px; height: 300px;" align="center"/>
+<img src="./moon.png" style="width: 400px; height: 300px;" align="center"/><img src="./sun.png" style="width: 400px; height: 300px;" align="center"/>
