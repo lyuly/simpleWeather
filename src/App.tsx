@@ -51,7 +51,7 @@ function App () {
   }
 
   const getBgUrl = async () => {
-    await fetch('http://fly.atlinker.cn/api/bing/cn.php')
+    await fetch('https://fly.atlinker.cn/api/bing/cn.php')
       .then(async (res) => await res.json())
       .then((data: any) => {
         const url = `https://bing.com${data.images[0].url}`
