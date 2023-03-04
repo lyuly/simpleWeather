@@ -25,7 +25,9 @@ function App () {
   // 搜索
   const [inputValue, setInputValue] = useState('')
 
-  const initialContext = { ip: '222.168.40.155', full_ip: '222.168.40.155', country: '\u4e2d\u56fd', country_code: 'CN', province: '\u5409\u6797', city: '\u957f\u6625', distinct: '\u671d\u9633\u533a', isp: '\u7535\u4fe1', operator: '\u7535\u4fe1', lon: '125.3245', lat: '43.886841', net_str: '\u4e2d\u56fd\u7535\u4fe1' }
+  const [bgUrl, setBgUrl] = useState('')
+
+  const initialContext = { ip: '0.0.0.0', full_ip: '0.0.0.0', country: '\u4e2d\u56fd', country_code: 'CN', province: '\u5409\u6797', city: '\u957f\u6625', distinct: '\u671d\u9633\u533a', isp: '\u7535\u4fe1', operator: '\u7535\u4fe1', lon: '125.3245', lat: '43.886841', net_str: '\u4e2d\u56fd\u7535\u4fe1' }
 
   const [ipInfo, setIpInfo] = useState<IpProps>(initialContext)
 
@@ -48,8 +50,18 @@ function App () {
       })
   }
 
+  const getBgUrl = async () => {
+    await fetch('http://fly.atlinker.cn/api/bing/cn.php')
+      .then(async (res) => await res.json())
+      .then((data: any) => {
+        const url = `https://bing.com${data.images[0].url}`
+        setBgUrl(url)
+      })
+  }
+
   // 获取当前地址的ip地理信息
   useEffect(() => {
+    void getBgUrl()
     void getIp()
   }, [])
 
@@ -58,7 +70,7 @@ function App () {
   }
 
   return (
-    <div className='flex justify-center items-center flex-col gap-5 w-screen h-screen bg-white dark:bg-black'>
+    <div className="bg-cover bg-center flex justify-center items-center flex-col gap-5 w-screen h-screen bg-white dark:bg-black" style={{ backgroundImage: `url(${bgUrl})` }}>
       <h1 className='text-4xl text-transparent bg-clip-text bg-gradient-to-r font-light to-emerald-300 from-sky-600 md:text-5xl lg:text-6xl'>
         简单天气
       </h1>
