@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, created, ref, watchEffect } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import fetchJsop from 'fetch-jsonp'
 
 const props = defineProps(['ipInfo']);
