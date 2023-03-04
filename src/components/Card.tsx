@@ -43,26 +43,26 @@ function Card () {
         }
       />
       <p className='font-light text-6xl from-yellow-400 to-blue-600 text-transparent bg-clip-text bg-gradient-to-r'>
-        {data != null ? data.main.temp : ''}
+        {data != null ? Math.round(data.main.temp) : ''}
         <span className='align-super text-base'>℃</span>
       </p>
       <div className='font-light text-gray-400'>
         <div className='flex justify-between'>
         <span>体感</span>
           <span className='font-light from-gray-400 to-rose-200 text-transparent bg-clip-text bg-gradient-to-l'>
-            {data != null ? data.main.feels_like : ''}℃
+            {data != null ? Math.round(data.main.feels_like) : ''}℃
           </span>
         </div>
         <div className='flex justify-between'>
           <span>风速</span>
           <span className='font-light from-gray-400 to-rose-200 text-transparent bg-clip-text bg-gradient-to-l'>
-            {data != null ? data.wind.speed : ''}m/s
+            {data != null ? Math.round(data.wind.speed) : ''}m/s
           </span>
         </div>
         <div className='flex justify-between'>
           <span>湿度</span>
           <span className='font-light from-gray-400 to-rose-200 text-transparent bg-clip-text bg-gradient-to-l'>
-          {data != null ? data.main.humidity : ''}%
+          {data != null ? Math.round(data.main.humidity) : ''}%
         </span>
         </div>
         <div className='flex justify-between'>
