@@ -1,25 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import { createContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Card from './components/Card'
 import { invoke } from '@tauri-apps/api/tauri'
-
-export interface IpProps {
-  ip?: string
-  full_ip?: string
-  country?: string
-  province?: string
-  city: string
-  distinct?: string
-  isp?: string
-  operator?: string
-  lon: string
-  lat: string
-  net_str?: string
-}
-
-// 天气面板信息传递
-export const CardContext = createContext('')
+import { type IpProps } from './types/IpProps'
 
 function App () {
   // 搜索
@@ -27,27 +11,18 @@ function App () {
 
   const [bgUrl, setBgUrl] = useState('')
 
-  const initialContext = { ip: '0.0.0.0', full_ip: '0.0.0.0', country: '\u4e2d\u56fd', country_code: 'CN', province: '\u5409\u6797', city: '\u957f\u6625', distinct: '\u671d\u9633\u533a', isp: '\u7535\u4fe1', operator: '\u7535\u4fe1', lon: '125.3245', lat: '43.886841', net_str: '\u4e2d\u56fd\u7535\u4fe1' }
-
-  const [ipInfo, setIpInfo] = useState<IpProps>(initialContext)
-
-  async function greet () {
-    setInputValue(await invoke('greet', { inputValue }))
-  }
+  const [ipInfo, setIpInfo] = useState<IpProps>()
 
   const getIp = async () => {
-    await fetch('https://forge.speedtest.cn/api/location/info', {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      referrerPolicy: 'strict-origin-when-cross-origin',
-      method: 'GET',
-      mode: 'cors'
-    })
+    await fetch('https://api.ip.sb/geoip')
       .then(async (response) => await response.json())
       .then((data) => {
         setIpInfo(data)
       })
+  }
+
+  async function greet () {
+    setInputValue(await invoke('greet', { inputValue }))
   }
 
   const getBgUrl = async () => {
@@ -62,6 +37,9 @@ function App () {
   // 获取当前地址的ip地理信息
   useEffect(() => {
     void getBgUrl()
+  }, [])
+
+  useEffect(() => {
     void getIp()
   }, [])
 
@@ -70,7 +48,9 @@ function App () {
   }
 
   return (
-    <div className="bg-cover bg-center flex justify-center items-center flex-col gap-5 w-screen h-screen bg-white dark:bg-black" style={{ backgroundImage: `url(${bgUrl})` }}>
+    <div
+      className='bg-cover bg-center flex justify-center items-center flex-col gap-5 w-screen h-screen bg-white dark:bg-black'
+      style={{ backgroundImage: `url(${bgUrl})` }}>
       <h1 className='text-4xl text-transparent bg-clip-text bg-gradient-to-r font-light to-emerald-300 from-sky-600 md:text-5xl lg:text-6xl'>
         简单天气
       </h1>
@@ -78,8 +58,7 @@ function App () {
       <form>
         <label
           htmlFor='search'
-          className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
-        >
+          className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'>
           Search
         </label>
         <div className='relative'>
@@ -90,18 +69,18 @@ function App () {
               fill='none'
               stroke='currentColor'
               viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'
-            >
+              xmlns='http://www.w3.org/2000/svg'>
               <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
                 strokeWidth='2'
-                d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-              ></path>
+                d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'></path>
             </svg>
           </div>
           <input
-            onChange={(e) => { setInputValue(e.target.value) }}
+            onChange={(e) => {
+              setInputValue(e.target.value)
+            }}
             value={inputValue}
             type='search'
             id='search'
@@ -110,18 +89,20 @@ function App () {
             required
           />
           <button
-            onClick={() => { search() }}
+            onClick={() => {
+              search()
+            }}
             type='submit'
-            className='text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-          >
+            className='text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
             搜索
           </button>
         </div>
       </form>
 
-      <CardContext.Provider value={ipInfo.city + ',' + ipInfo.lon + ',' + ipInfo.lat}>
-        <Card />
-      </CardContext.Provider>
+      <Card
+        latitude={ipInfo !== undefined ? ipInfo.latitude : 0}
+        longitude={ipInfo !== undefined ? ipInfo.longitude : 0}
+      />
     </div>
   )
 }
