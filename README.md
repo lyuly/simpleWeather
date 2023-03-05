@@ -1,4 +1,5 @@
 # Tauri + React + Typescript
+<img src="https://img.shields.io/tokei/lines/github/lyuly/simpleWeather"> <img src="https://img.shields.io/github/last-commit/lyuly/simpleWeather">
 
 developing with Tauri, React and Typescript in Vite.
 
