@@ -14,7 +14,14 @@ function App () {
   const [ipInfo, setIpInfo] = useState<IpProps>()
 
   const getIp = async () => {
-    await fetch('https://api.ip.sb/geoip')
+    await fetch('https://forge.speedtest.cn/api/location/info', {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      referrerPolicy: 'strict-origin-when-cross-origin',
+      method: 'GET',
+      mode: 'cors'
+    })
       .then(async (response) => await response.json())
       .then((data) => {
         setIpInfo(data)
@@ -100,8 +107,9 @@ function App () {
       </form>
 
       <Card
-        latitude={ipInfo !== undefined ? ipInfo.latitude : 0}
-        longitude={ipInfo !== undefined ? ipInfo.longitude : 0}
+        city={ipInfo !== undefined ? ipInfo.city : ''}
+        lat={ipInfo !== undefined ? ipInfo.lat : ''}
+        lon={ipInfo !== undefined ? ipInfo.lon : ''}
       />
     </div>
   )

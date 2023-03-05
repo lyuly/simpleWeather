@@ -1,14 +1,13 @@
 export interface IpProps {
-  organization?: string
-  longitude: number
-  timezone?: string
-  isp?: string
-  offset?: number
-  asn?: number
-  asn_organization?: string
-  country?: string
   ip?: string
-  latitude: number
-  continent_code?: string
-  country_code?: string
+  full_ip?: string
+  country?: string
+  province?: string
+  city: string
+  distinct?: string
+  isp?: string
+  operator?: string
+  lon: string
+  lat: string
+  net_str?: string
 }

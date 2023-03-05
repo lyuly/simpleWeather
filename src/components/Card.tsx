@@ -7,10 +7,7 @@ import fetchJsonp from 'fetch-jsonp'
 import { type IpProps } from '../types/IpProps'
 
 function Card (props: IpProps) {
-  const [lat, setLat] = useState<number>(0)
-  const [lon, setLon] = useState<number>(0)
-
-  const { latitude, longitude } = props
+  const { lat, lon, city } = props
 
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=dfa5856ee9350054815bd2bedbef912a&lang=zh_cn&units=metric`
 
@@ -25,21 +22,13 @@ function Card (props: IpProps) {
   }
 
   useEffect(() => {
-    setLat(props.latitude)
-  }, [props.latitude])
-
-  useEffect(() => {
-    setLon(props.longitude)
-  }, [props.longitude])
-
-  useEffect(() => {
     void getData(url)
   }, [lat, lon])
 
   return (
     <div className='grid grid-cols-2 gap-4 justify-around max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
-      <h5 className='font-semibold text-3xl from-indigo-400 to-blue-500 text-transparent bg-clip-text bg-gradient-to-r'>
-        { data != null ? data.name : ''}
+      <h5 className='font-semibold text-6xl from-indigo-400 to-blue-500 text-transparent bg-clip-text bg-gradient-to-r'>
+        { city }
         <div className='font-light text-2xl text-gray-400 text-center'>
           {data != null ? data.weather[0].description : ''}
         </div>
