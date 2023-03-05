@@ -3,18 +3,24 @@
 import { useEffect, useState } from 'react'
 import { type WeatherProps } from './types'
 import dayjs from 'dayjs'
-import fetchJsonp from 'fetch-jsonp'
-import { type IpProps } from '../types/IpProps'
+import { type optionProps } from '../types/IpProps'
 
-function Card (props: IpProps) {
-  const { lat, lon, city } = props
+function Card (props: optionProps) {
+  const { value, label } = props
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=dfa5856ee9350054815bd2bedbef912a&lang=zh_cn&units=metric`
+  const url = `https://devapi.qweather.com/v7/weather/now?key=18a7bf8cb4f94fb0aca036a106becb43&location=${value}`
 
   const [data, setWeather] = useState<WeatherProps>()
 
   const getData = async (url: string) => {
-    await fetchJsonp(url)
+    await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      referrerPolicy: 'strict-origin-when-cross-origin',
+      method: 'GET',
+      mode: 'cors'
+    })
       .then(async (response) => await response.json())
       .then((data) => {
         setWeather(data)
@@ -23,55 +29,58 @@ function Card (props: IpProps) {
 
   useEffect(() => {
     void getData(url)
-  }, [lat, lon])
+  }, [value])
 
   return (
-    <div className='grid grid-cols-2 gap-4 justify-around max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
-      <h5 className='font-semibold text-6xl from-indigo-400 to-blue-500 text-transparent bg-clip-text bg-gradient-to-r'>
-        { city }
-        <div className='font-light text-2xl text-gray-400 text-center'>
-          {data != null ? data.weather[0].description : ''}
-        </div>
-      </h5>
+    <>
+      {((data?.now) != null)
+        ? (
+        <div className='grid grid-cols-2 gap-4 justify-center items-center max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-600'>
+          <h5 className='font-semibold text-6xl from-indigo-400 to-blue-500 text-transparent bg-clip-text bg-gradient-to-r'>
+            {label}
+            <div className='font-light text-2xl text-gray-400 text-center'>
+              {data.now.text}
+            </div>
+          </h5>
 
-      <img
-        className='rounded-full fill-current'
-        src={
-          './icons/' + (data != null ? data.weather[0].icon : '') +
-          '.png'
-        }
-      />
-      <p className='font-light text-6xl from-yellow-400 to-blue-600 text-transparent bg-clip-text bg-gradient-to-r'>
-        {data != null ? Math.round(data.main.temp) : ''}
-        <span className='align-super text-base'>℃</span>
-      </p>
-      <div className='font-light text-gray-400'>
-        <div className='flex justify-between'>
-        <span>体感</span>
-          <span className='font-light from-gray-400 to-rose-200 text-transparent bg-clip-text bg-gradient-to-l'>
-            {data != null ? Math.round(data.main.feels_like) : ''}℃
-          </span>
+          <img
+            className='rounded-full fill-current w-16 h-16'
+            src={'./icons/' + (data != null ? data.now.icon : '') + '.svg'}
+          />
+          <p className='font-light text-6xl from-yellow-400 to-blue-600 text-transparent bg-clip-text bg-gradient-to-r'>
+            {data.now.temp}
+            <span className='align-super text-base'>℃</span>
+          </p>
+          <div className='font-light text-gray-400'>
+            <div className='flex justify-between'>
+              <span>体感</span>
+              <span className='font-light from-gray-400 to-rose-200 text-transparent bg-clip-text bg-gradient-to-l'>
+                {data.now.feelsLike}℃
+              </span>
+            </div>
+            <div className='flex justify-between'>
+              <span>风速</span>
+              <span className='font-light from-gray-400 to-rose-200 text-transparent bg-clip-text bg-gradient-to-l'>
+                {data != null ? data.now.windSpeed : ''}m/s
+              </span>
+            </div>
+            <div className='flex justify-between'>
+              <span>湿度</span>
+              <span className='font-light from-gray-400 to-rose-200 text-transparent bg-clip-text bg-gradient-to-l'>
+                {data != null ? data.now.humidity : ''}%
+              </span>
+            </div>
+            <div className='flex justify-between'>
+              <span>大气压</span>
+              <span className='font-light from-gray-400 to-rose-200 text-transparent bg-clip-text bg-gradient-to-l'>
+                {data != null ? data.now.pressure : ''}pa
+              </span>
+            </div>
+          </div>
         </div>
-        <div className='flex justify-between'>
-          <span>风速</span>
-          <span className='font-light from-gray-400 to-rose-200 text-transparent bg-clip-text bg-gradient-to-l'>
-            {data != null ? Math.round(data.wind.speed) : ''}m/s
-          </span>
-        </div>
-        <div className='flex justify-between'>
-          <span>湿度</span>
-          <span className='font-light from-gray-400 to-rose-200 text-transparent bg-clip-text bg-gradient-to-l'>
-          {data != null ? Math.round(data.main.humidity) : ''}%
-        </span>
-        </div>
-        <div className='flex justify-between'>
-          <span>大气压</span>
-          <span className='font-light from-gray-400 to-rose-200 text-transparent bg-clip-text bg-gradient-to-l'>
-            {data != null ? data.main.pressure : ''}pa
-          </span>
-        </div>
-      </div>
-    </div>
+          )
+        : null}
+    </>
   )
 }
 

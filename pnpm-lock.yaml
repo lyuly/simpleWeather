@@ -16,7 +16,6 @@ specifiers:
   eslint-plugin-n: ^15.0.0
   eslint-plugin-promise: ^6.0.0
   eslint-plugin-react: ^7.32.2
-  fetch-jsonp: ^1.2.3
   postcss: ^8.4.21
   prettier: ^2.8.4
   react: ^18.2.0
@@ -29,7 +28,6 @@ specifiers:
 dependencies:
   '@tauri-apps/api': registry.npmjs.org/@tauri-apps/api/1.2.0
   dayjs: registry.npmjs.org/dayjs/1.11.7
-  fetch-jsonp: registry.npmjs.org/fetch-jsonp/1.2.3
   react: registry.npmjs.org/react/18.2.0
   react-dom: registry.npmjs.org/react-dom/18.2.0_react@18.2.0
   react-use: registry.npmjs.org/react-use/17.4.0_biqbaboplfbrettd7655fr4n2y
@@ -2129,12 +2127,6 @@ packages:
     dependencies:
       reusify: registry.npmjs.org/reusify/1.0.4
     dev: true
-
-  registry.npmjs.org/fetch-jsonp/1.2.3:
-    resolution: {integrity: sha512-C13k1o7R9JTN1wmhKkrW5bU/00LwixXnkufQUR6Rbf4KCS0i8mycQaovt4WVbHnA2NKgi7Ryp9Whpy/CGcij6Q==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/fetch-jsonp/-/fetch-jsonp-1.2.3.tgz}
-    name: fetch-jsonp
-    version: 1.2.3
-    dev: false
 
   registry.npmjs.org/file-entry-cache/6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/file-entry-cache/-/file-entry-cache-6.0.1.tgz}

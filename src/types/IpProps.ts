@@ -11,3 +11,8 @@ export interface IpProps {
   lat: string
   net_str?: string
 }
+
+export interface optionProps {
+  value: string
+  label: string
+}

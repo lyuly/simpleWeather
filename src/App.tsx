@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react'
 import Card from './components/Card'
 import { invoke } from '@tauri-apps/api/tauri'
-import { type IpProps } from './types/IpProps'
+import { type optionProps, type IpProps } from './types/IpProps'
+import { type Location, type cityProps } from './types/cityProps'
 
 function App () {
   // 搜索
@@ -11,7 +12,7 @@ function App () {
 
   const [bgUrl, setBgUrl] = useState('')
 
-  const [ipInfo, setIpInfo] = useState<IpProps>()
+  const [ipInfo, setIpInfo] = useState<optionProps>()
 
   const getIp = async () => {
     await fetch('https://forge.speedtest.cn/api/location/info', {
@@ -23,8 +24,12 @@ function App () {
       mode: 'cors'
     })
       .then(async (response) => await response.json())
-      .then((data) => {
-        setIpInfo(data)
+      .then((data: IpProps) => {
+        const options = {
+          value: `${Number(data.lon).toFixed(2)},${Number(data.lat).toFixed(2)}`,
+          label: `${data.city}`
+        }
+        setIpInfo(options)
       })
   }
 
@@ -50,8 +55,17 @@ function App () {
     void getIp()
   }, [])
 
-  const search = () => {
-    return 0
+  const search = async (inputValue: string) => {
+    await fetch(`https://geoapi.qweather.com/v2/city/lookup?key=18a7bf8cb4f94fb0aca036a106becb43&location=${inputValue}`)
+      .then(async (res) => await res.json())
+      .then((data: cityProps) => {
+        const options = {
+          value: `${data.location[0].lon},${data.location[0].lat}`,
+          label: `${data.location[0].name}`
+        }
+        setIpInfo(options)
+        setInputValue('')
+      })
   }
 
   return (
@@ -92,14 +106,14 @@ function App () {
             type='search'
             id='search'
             className='block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-            placeholder=''
+            placeholder='输入城市'
             required
           />
           <button
             onClick={() => {
-              search()
+              void search(inputValue)
             }}
-            type='submit'
+            type='button'
             className='text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
             搜索
           </button>
@@ -107,9 +121,8 @@ function App () {
       </form>
 
       <Card
-        city={ipInfo !== undefined ? ipInfo.city : ''}
-        lat={ipInfo !== undefined ? ipInfo.lat : ''}
-        lon={ipInfo !== undefined ? ipInfo.lon : ''}
+        value={ipInfo != null ? ipInfo.value : ''}
+        label={ipInfo != null ? ipInfo.label : ''}
       />
     </div>
   )

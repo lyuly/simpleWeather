@@ -1,56 +1,30 @@
 export interface WeatherProps {
-  coord: Coord
-  weather: Weather[]
-  base: string
-  main: Main
-  visibility: number
-  wind: Wind
-  clouds: Clouds
-  dt: number
-  sys: Sys
-  timezone: number
-  id: number
-  name: string
-  cod: number
+  code: string
+  updateTime: string
+  fxLink: string
+  now: Now
+  refer: Refer
 }
 
-interface Sys {
-  type: number
-  id: number
-  country: string
-  sunrise: number
-  sunset: number
+interface Refer {
+  sources?: string[]
+  license?: string[]
 }
 
-interface Clouds {
-  all: number
-}
-
-interface Wind {
-  speed: number
-  deg: number
-  gust: number
-}
-
-interface Main {
-  temp: number
-  feels_like: number
-  temp_min: number
-  temp_max: number
-  pressure: number
-  humidity: number
-  sea_level: number
-  grnd_level: number
-}
-
-interface Weather {
-  id: number
-  main: string
-  description: string
+interface Now {
+  obsTime: string
+  temp: string
+  feelsLike: string
   icon: string
-}
-
-interface Coord {
-  lon: number
-  lat: number
+  text: string
+  wind360: string
+  windDir: string
+  windScale: string
+  windSpeed: string
+  humidity: string
+  precip: string
+  pressure: string
+  vis: string
+  cloud?: string
+  dew?: string
 }
